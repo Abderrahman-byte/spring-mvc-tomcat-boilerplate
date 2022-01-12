@@ -1,4 +1,4 @@
-package com.abderrahmane.webappexec.helpers;
+package ${package}.helpers;
 
 import java.io.File;
 import java.io.FileInputStream;

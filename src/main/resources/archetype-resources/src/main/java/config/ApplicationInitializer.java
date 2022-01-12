@@ -1,4 +1,4 @@
-package com.abderrahmane.webappexec.config;
+package ${package}.config;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;

@@ -1,5 +1,8 @@
 target
 .vscode
-tomcat.*
-application.properties
-tomcat
+/target
+/.settings
+/.project
+/.classpath
+/.idea
+*.iml

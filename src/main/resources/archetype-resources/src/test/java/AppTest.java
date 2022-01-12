@@ -1,4 +1,4 @@
-package com.abderrahmane.webappexec;
+package ${package};
 
 import static org.junit.Assert.assertTrue;
 

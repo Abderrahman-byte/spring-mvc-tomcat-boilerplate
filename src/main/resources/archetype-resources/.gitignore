@@ -1,0 +1,12 @@
+target
+.vscode
+tomcat.*
+application.properties
+tomcat
+.classpath
+.project
+target/
+bin/
+.settings/
+.idea/
+*.iml

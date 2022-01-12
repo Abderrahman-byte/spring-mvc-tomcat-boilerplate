@@ -1,10 +1,10 @@
-package com.abderrahmane.webappexec;
+package ${package};
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.abderrahmane.webappexec.config.ApplicationInitializer;
-import com.abderrahmane.webappexec.helpers.TomcatAppLauncher;
+import ${package}.config.ApplicationInitializer;
+import ${package}.helpers.TomcatAppLauncher;
 
 import org.springframework.web.SpringServletContainerInitializer;
 
