@@ -6,14 +6,4 @@
 >   
 
   <display-name>Basic Java Executable Web App</display-name>
-
-  <servlet>
-    <servlet-name>MainServlet</servlet-name>
-    <servlet-class>com.abderrahmane.webappexec.controllers.MainServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>MainServlet</servlet-name>
-    <url-pattern></url-pattern>
-  </servlet-mapping>
 </web-app>

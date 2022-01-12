@@ -1,13 +1,16 @@
 package com.abderrahmane.webappexec.helpers;
 
 import java.io.File;
+import java.util.Set;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Wrapper;
 import org.apache.catalina.startup.Tomcat;
 
-import jakarta.servlet.Servlet;
+import javax.servlet.Servlet;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
 
 public class TomcatAppLauncher {
     private final String baseDir = "./target/tomcat";
@@ -37,7 +40,13 @@ public class TomcatAppLauncher {
 
     public void setDocBase (String docBase) {
         this.docBase = docBase;
-    } 
+    }
+
+    public ServletContext getServletContext () {
+        if (this.context == null) return null;
+
+        return this.context.getServletContext();
+    }
 
     public Context createWebapp () {
         return this.createWebapp("");
@@ -53,25 +62,34 @@ public class TomcatAppLauncher {
         return this.context;
     }
 
-    public Wrapper addServlet (String servletName, String servletClass, String path) throws IllegalStateException {
-        if (this.context != null) throw new IllegalStateException("Web App is not created Yet run : tomcatLauncher.createWebapp()");
+    public void addServletContainerInitializer (ServletContainerInitializer sci, Set<Class<?>> classes) throws Exception {
+        this.checkContext();
+        this.context.addServletContainerInitializer(sci, classes);
+    }
+
+    public Wrapper addServlet (String servletName, String servletClass, String path) throws Exception {
+        this.checkContext();
 
         Wrapper wrapper = Tomcat.addServlet(this.context, servletName, servletClass);
         this.context.addServletMappingDecoded(path, servletName);
+        wrapper.setLoadOnStartup(1);
 
         return wrapper;
     }
 
-    public Wrapper addServlet (String servletName, Servlet servlet, String path) throws IllegalStateException {
-        if (this.context != null) throw new IllegalStateException("Web App is not created Yet run : tomcatLauncher.createWebapp()");
+    public Wrapper addServlet (String servletName, Servlet servlet, String path) throws Exception {
+        this.checkContext();
 
         Wrapper wrapper = Tomcat.addServlet(this.context, servletName, servlet);
         this.context.addServletMappingDecoded(path, servletName);
+        wrapper.setLoadOnStartup(1);
 
         return wrapper;
     }
 
     public void start () throws LifecycleException {
+        this.tomcat.setPort(this.port);
+        this.tomcat.setHostname(this.host);
         this.tomcat.start();
         this.tomcat.getServer().await();
     }
@@ -83,5 +101,9 @@ public class TomcatAppLauncher {
         if (!appConfigDir.exists()) appConfigDir.mkdirs();
 
         FileSystem.copyDirectoryContent(webappDir, appConfigDir);
+    }
+
+    private void checkContext () throws Exception {
+        if (this.context == null) throw new Exception("Web App is not created Yet run : tomcatLauncher.createWebapp()");
     }
 }
